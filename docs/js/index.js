@@ -162,8 +162,8 @@ function doPayment(paymentRequest) {
       console.log(result)
       if (result.error) {
         // Inform the user if there was an error
-        var errorElement = document.getElementById('card-errors');
-        errorElement.textContent = result.error.message;
+        //var errorElement = document.getElementById('card-errors');
+        //errorElement.textContent = result.error.message;
         reject(result.error);
       } else if (result.source.card.three_d_secure === 'not_supported' && result.source.status === 'chargeable'){
         authwindow.close();
