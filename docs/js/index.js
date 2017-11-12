@@ -188,9 +188,6 @@ function doPayment(paymentRequest) {
   });
 }
 
-var loc = location.pathname,
-      dir = location.href.substring(0, location.href.lastIndexOf('/')) + '/';
-
 function createThreeDSecureSource(paymentRequest){
   console.log('create3DSecure --> paymentRequest', paymentRequest);
   return new Promise((resolve, reject) => {
