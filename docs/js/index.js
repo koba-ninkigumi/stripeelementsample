@@ -188,6 +188,9 @@ function doPayment(paymentRequest) {
   });
 }
 
+var loc = location.pathname,
+      dir = location.href.substring(0, location.href.lastIndexOf('/')) + '/';
+
 function createThreeDSecureSource(paymentRequest){
   console.log('create3DSecure --> paymentRequest', paymentRequest);
   return new Promise((resolve, reject) => {
@@ -200,7 +203,7 @@ function createThreeDSecureSource(paymentRequest){
       },
       redirect: {
         //return_url: window.location.href
-        return_url: window.location.origin + "/callback.html"
+        return_url: window.location.href.substring(0, window.location.href.lastIndexOf('/')) + "/callback.html"
       }
     }).then(function(result) {
       console.log('create3DSecure --> createSourceResponse', result);
