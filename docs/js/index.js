@@ -252,7 +252,7 @@ function receiveMessageFromAuthWindow(result){
           if (evt.data === "threedsecurecredentialcallback"){
             console.log(evt.data);
             console.log(authwindow.location);
-            if (typeof(authwindow.close) === 'function' && authwindow.location.href.match(".+/(.+?)([\?#;].*)?$")[1] === '/callback.html'){
+            if (typeof(authwindow.close) === 'function' && authwindow.location.href.match(".+/(.+?)([\?#;].*)?$")[1] === 'callback.html'){
               authwindow.close();
             }
             console.log(JSON.parse(localStorage.getItem("threedsecurecredential")));
