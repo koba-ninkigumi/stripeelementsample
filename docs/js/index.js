@@ -109,7 +109,6 @@ function registerElements(elements, exampleName) {
       example.classList.remove('submitting');
       console.log('result --> ', result);
 
-
       if (result.id) {
         // If we received a token, show the token ID.
         example.querySelector('.token').innerText = result.id;
@@ -118,7 +117,6 @@ function registerElements(elements, exampleName) {
         // Otherwise, un-disable inputs.
         enableInputs();
       }
-
 
       //paymentRequest.nativeElement.innerHTML = 'Success!!!! Your details are correct!!! :)';
       //alert('Success: Token is: ' + result.id);
@@ -216,24 +214,8 @@ function createThreeDSecureSource(paymentRequest){
 
       paymentRequest.threeDSecure = result;
 
-      /*
-      var iframe = document.createElement("iframe");
-      paymentRequest.nativeElement.replaceChild(iframe, paymentRequest.nativeElement.childNodes.item(0));
-      iframe.style.width = "100%";
-      iframe.style.height = "800px";
-      iframe.frameBorder = "0";
-      iframe.seamless = true;
-      iframe.addEventListener('load',()=>{
-        retrieveSource(result.source.id, result.source.client_secret).then((result)=>{
-          resolve(result);
-        });
-      });
-      iframe.src = result.source.redirect.url;
-      */
-
       authwindow.location.href = result.source.redirect.url;
 
-      //ここにaddeventlistener
       receiveMessageFromAuthWindow(result).then((result2)=>{
         console.log(result2);
         resolve(result2);
@@ -248,29 +230,27 @@ function createThreeDSecureSource(paymentRequest){
 
 function receiveMessageFromAuthWindow(result){
   return new Promise((resolve, reject) => {
-        window.addEventListener('message', (evt)=>{
-          if (evt.data === "threedsecurecredentialcallback"){
-            console.log(evt.data);
-            console.log(authwindow.location);
-            if (typeof(authwindow.close) === 'function' && authwindow.location.href.match(".+/(.+?)([\?#;].*)?$")[1] === 'callback.html'){
-              authwindow.close();
-            }
-            console.log(JSON.parse(localStorage.getItem("threedsecurecredential")));
-            //document.querySelector("#postmessage").innerHTML = localStorage.getItem("threedsecurecredential");
-            localStorage.setItem("threedsecurecredential",'{}');
+    window.addEventListener('message', (evt)=>{
+      if (evt.data === "threedsecurecredentialcallback"){
+        console.log(evt.data);
+        console.log(authwindow.location);
+        if (typeof(authwindow.close) === 'function' && authwindow.location.href.match(".+/(.+?)([\?#;].*)?$")[1] === 'callback.html'){
+          authwindow.close();
+        }
+        console.log(JSON.parse(localStorage.getItem("threedsecurecredential")));
+        //document.querySelector("#postmessage").innerHTML = localStorage.getItem("threedsecurecredential");
+        localStorage.setItem("threedsecurecredential",'{}');
 
-            retrieveSource(result.source.id, result.source.client_secret).then((result2)=>{
-              console.log(result2);
-              //resolve("あいうえお");
-              resolve(result2);
-            }).catch((error) => {
-              console.log(error);
-              reject(error)
-            });
-
-
-          }
+        retrieveSource(result.source.id, result.source.client_secret).then((result2)=>{
+          console.log(result2);
+          resolve(result2);
+        }).catch((error) => {
+          console.log(error);
+          reject(error)
         });
+
+      }
+    });
   });
 
 }
